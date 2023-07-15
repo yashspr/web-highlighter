@@ -16,7 +16,7 @@
         "paths": {
             "@src/*": ["./src/*"]
         },
-		"types": []
+		"skipLibCheck": true
     },
     "include": [
         "src/**/*",
