@@ -1,4 +1,4 @@
-import type { RootElement } from '@src/types';
+import type { RootElement, BrowserWindow } from '@src/types';
 import {
     ID_DIVISION,
     DATASET_IDENTIFIER,
@@ -153,3 +153,11 @@ export const removeAllClass = ($el: HTMLElement): void => {
 };
 
 export const hasClass = ($el: HTMLElement, className: string): boolean => $el.classList.contains(className);
+
+export const getWindowFromElement = (element: RootElement) => {
+    const doc = element.ownerDocument;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unsafe-member-access
+    const win: BrowserWindow = doc.defaultView || (doc as any).parentWindow!;
+
+    return win;
+};

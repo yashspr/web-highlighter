@@ -1,4 +1,4 @@
-import type { DomNode, DomMeta, HookMap, HighlighterOptions } from '@src/types';
+import type { DomNode, DomMeta, HookMap, HighlighterOptions, IInteraction } from '@src/types';
 import EventEmitter from '@src/util/event.emitter';
 import HighlightRange from '@src/model/range';
 import HighlightSource from '@src/model/source';
@@ -19,6 +19,7 @@ import {
     getHighlightId,
     addEventListener,
     removeEventListener,
+    getWindowFromElement,
 } from '@src/util/dom';
 
 interface EventHandlerMap {
@@ -45,7 +46,7 @@ export default class Highlighter extends EventEmitter<EventHandlerMap> {
 
     private options: HighlighterOptions;
 
-    private readonly event = getInteraction();
+    private readonly event: IInteraction;
 
     constructor(options?: HighlighterOptions) {
         super();
@@ -57,6 +58,8 @@ export default class Highlighter extends EventEmitter<EventHandlerMap> {
         this.cache = new Cache();
 
         const $root = this.options.$root;
+
+        this.event = getInteraction(getWindowFromElement($root));
 
         // initialize event listener
         addEventListener($root, this.event.PointerOver, this._handleHighlightHover);
@@ -230,11 +233,11 @@ export default class Highlighter extends EventEmitter<EventHandlerMap> {
     }
 
     private readonly _handleSelection = () => {
-        const range = HighlightRange.fromSelection(this.hooks.Render.UUID);
+        const range = HighlightRange.fromSelection(this.hooks.Render.UUID, getWindowFromElement(this.options.$root));
 
         if (range) {
             this._highlightFromHRange(range);
-            HighlightRange.removeDomRange();
+            HighlightRange.removeDomRange(getWindowFromElement(this.options.$root));
         }
     };
 

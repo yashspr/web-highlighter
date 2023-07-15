@@ -1,6 +1,7 @@
 import type Hook from '@src/util/hook';
 
 export type RootElement = Document | HTMLElement;
+export type BrowserWindow = Window & typeof globalThis;
 
 export interface HighlighterOptions {
     $root?: RootElement;

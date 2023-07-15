@@ -4,7 +4,7 @@
  * represents for a piece of chosen dom
  */
 
-import type { DomNode, HookMap } from '@src/types';
+import type { DomNode, HookMap, BrowserWindow } from '@src/types';
 import type Hook from '@src/util/hook';
 import HighlightSource from '@src/model/source/index';
 import { ERROR } from '@src/types';
@@ -40,8 +40,8 @@ class HighlightRange {
         this.id = id;
     }
 
-    static fromSelection(idHook: Hook<string>) {
-        const range = getDomRange();
+    static fromSelection(idHook: Hook<string>, _window?: BrowserWindow) {
+        const range = getDomRange(_window);
 
         if (!range) {
             return null;
