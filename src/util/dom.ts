@@ -154,10 +154,22 @@ export const removeAllClass = ($el: HTMLElement): void => {
 
 export const hasClass = ($el: HTMLElement, className: string): boolean => $el.classList.contains(className);
 
-export const getWindowFromElement = (element: RootElement) => {
-    const doc = element.ownerDocument;
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unsafe-member-access
-    const win: BrowserWindow = doc.defaultView || (doc as any).parentWindow!;
+export const getWindowFromElement = (element: RootElement): BrowserWindow => {
+    if (element.ownerDocument) {
+        const doc = element.ownerDocument;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-unsafe-member-access
+        const win: BrowserWindow = doc.defaultView || (doc as any).parentWindow!;
 
-    return win;
+        return win;
+    } else if (((element as unknown) as Document).defaultView) {
+        return (
+            ((element as unknown) as Document).defaultView ||
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, prettier/prettier
+            (((element as any).parentWindow as unknown) as BrowserWindow)
+        );
+    } else if (((element as unknown) as Window).document) {
+        return (element as unknown) as BrowserWindow;
+    }
+
+    return window;
 };
