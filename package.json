@@ -1,6 +1,6 @@
 {
   "name": "@yashspr/web-highlighter",
-  "version": "0.7.5",
+  "version": "0.7.6",
   "description": "✨A no-runtime dependency lib for text highlighting & persistence on any website ✨🖍️",
   "main": "dist/web-highlighter.min.js",
   "types": "dist/index.d.ts",
